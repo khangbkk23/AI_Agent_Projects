@@ -7,6 +7,8 @@ from langchain_core.prompts import PromptTemplate
 from openai import RateLimitError, vector_stores
 import textwrap
 from enum import Enum
+from rank_bm25 import BM25Okapi
+from typing import List
 
 from tomlkit import document
 
@@ -96,7 +98,7 @@ def retrieve_context_per_question(question, chunks_query_retriever):
     """
 
     # Retrieve relevant documents for the given question
-    docs = chunks_query_retriever.get_relevant_documents(question)
+    docs = chunks_query_retriever.invoke(question)
 
     # Concatenate document content
     # context = " ".join(doc.page_content for doc in docs)
